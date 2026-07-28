@@ -42,7 +42,7 @@ const ETIQUETAS_CATEGORIA = {
 // Ojo: esto se construye nada más cargar la página. Si falla (config.js sin
 // rellenar, el script de Supabase no ha cargado, etc.) NO debe impedir que
 // se pinte la pantalla de selección de nombre, así que va en try/catch.
-let supabase = null;
+let supabaseClient = null;
 let configPendiente = false;
 
 try {
@@ -52,7 +52,7 @@ try {
   } else if (!window.supabase) {
     console.error("La librería de Supabase no se ha cargado (revisa tu conexión a internet o el <script> del CDN).");
   } else {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   }
 } catch (e) {
   console.error("Error al crear el cliente de Supabase:", e);
@@ -68,12 +68,12 @@ async function cargarProgreso() {
   progreso = {};
   AMIGOS.forEach(a => progreso[a] = new Set());
 
-  if (!supabase) {
+  if (!supabaseClient) {
     mostrarAvisoConfig();
     return;
   }
 
-  const { data, error } = await supabase.from("progreso").select("amigo, reto").eq("completado", true);
+  const { data, error } = await supabaseClient.from("progreso").select("amigo, reto").eq("completado", true);
   if (error) {
     console.error("Error cargando progreso:", error);
     mostrarAvisoConfig("No se ha podido conectar con Supabase. Revisa config.js y la tabla 'progreso'.");
@@ -86,16 +86,16 @@ async function cargarProgreso() {
 }
 
 async function marcarReto(amigo, retoId, conseguido) {
-  if (!supabase) {
+  if (!supabaseClient) {
     mostrarAvisoConfig();
     return;
   }
   if (conseguido) {
-    const { error } = await supabase.from("progreso")
+    const { error } = await supabaseClient.from("progreso")
       .upsert({ amigo, reto: retoId, completado: true }, { onConflict: "amigo,reto" });
     if (error) console.error(error);
   } else {
-    const { error } = await supabase.from("progreso")
+    const { error } = await supabaseClient.from("progreso")
       .delete().eq("amigo", amigo).eq("reto", retoId);
     if (error) console.error(error);
   }
