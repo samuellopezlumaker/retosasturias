@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retos entre amigos</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- PANTALLA 1: elegir quién eres -->
+  <div id="pantalla-seleccion">
+    <div class="cabecera-seleccion">
+      <h1 class="titular">¿Quién eres?</h1>
+      <p>Elige tu nombre para empezar a marcar tus retos</p>
+    </div>
+    <div id="grid-amigos" class="grid-amigos"></div>
+  </div>
+
+  <!-- PANTALLA 2: app principal -->
+  <div id="pantalla-app" class="oculto">
+    <div class="nav-app">
+      <button id="tab-perfil" class="nav-tab activo">Mi perfil</button>
+      <button id="tab-clasificacion" class="nav-tab">Clasificación</button>
+      <div class="nav-spacer"></div>
+      <button id="btn-cambiar" class="btn-cambiar">Cambiar de usuario</button>
+    </div>
+
+    <div class="contenido">
+      <div id="vista-perfil"></div>
+      <div id="vista-clasificacion" class="oculto"></div>
+      <p class="aviso">Los puntos se guardan para todos automáticamente. Solo tienes que marcar los retos que hayas cumplido.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
