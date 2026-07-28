@@ -1,0 +1,406 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg: #180f24;
+  --bg-soft: #241533;
+  --card: #2c1a40;
+  --card-edge: #3a2450;
+  --gold: #f4b93f;
+  --gold-soft: #f4d98a;
+  --pink: #ff4f81;
+  --green: #5fd68a;
+  --text: #f5ede2;
+  --text-dim: #b7a8c9;
+  --facil: #5fd68a;
+  --medio: #f4b93f;
+  --dificil: #ff6b4a;
+  --muydificil: #ff4f81;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  margin:0;
+  padding:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(244,185,63,0.08), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(255,79,129,0.10), transparent 45%),
+    var(--bg);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+}
+
+.oculto{ display:none !important; }
+
+/* ---------- Cabecera tipo flyer ---------- */
+.titular{
+  font-family: 'Anton', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ---------- Pantalla de selección ---------- */
+#pantalla-seleccion{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding: 48px 20px 60px;
+}
+
+.cabecera-seleccion{
+  text-align:center;
+  margin-bottom: 36px;
+}
+
+.cabecera-seleccion .titular{
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  color: var(--gold-soft);
+  margin: 0;
+  text-shadow: 0 0 18px rgba(244,185,63,0.35);
+}
+
+.cabecera-seleccion p{
+  color: var(--text-dim);
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.grid-amigos{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 780px;
+}
+
+.btn-amigo{
+  background: var(--card);
+  border: 2px solid var(--card-edge);
+  border-radius: 16px;
+  padding: 14px 10px 12px;
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+
+.btn-amigo:hover{
+  transform: translateY(-3px);
+  border-color: var(--gold);
+  background: var(--bg-soft);
+}
+
+.avatar-mini{
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: linear-gradient(135deg, var(--card-edge), var(--bg-soft));
+  border: 2px solid var(--card-edge);
+}
+
+.avatar-mini.placeholder{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Anton', sans-serif;
+  font-size: 1.6rem;
+  color: var(--text-dim);
+}
+
+/* ---------- App principal ---------- */
+#pantalla-app{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+.nav-app{
+  position: sticky;
+  top:0;
+  z-index: 10;
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(24,15,36,0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--card-edge);
+}
+
+.nav-tab{
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family:'Poppins',sans-serif;
+  font-weight:600;
+  font-size: .95rem;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor:pointer;
+}
+
+.nav-tab.activo{
+  background: var(--gold);
+  color: #221305;
+}
+
+.nav-spacer{ flex:1; }
+
+.btn-cambiar{
+  background: transparent;
+  border: 1px solid var(--card-edge);
+  color: var(--text-dim);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: .85rem;
+  cursor:pointer;
+}
+.btn-cambiar:hover{ border-color: var(--pink); color: var(--pink); }
+
+.contenido{
+  flex:1;
+  padding: 24px 16px 60px;
+  max-width: 720px;
+  width:100%;
+  margin: 0 auto;
+}
+
+/* ---------- Vista perfil ---------- */
+.cabecera-perfil{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom: 28px;
+}
+
+.avatar-grande{
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--gold);
+  box-shadow: 0 0 0 6px rgba(244,185,63,0.15), 0 10px 30px rgba(0,0,0,0.4);
+  background: var(--card);
+}
+
+.avatar-grande.placeholder{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Anton', sans-serif;
+  font-size: 3.4rem;
+  color: var(--text-dim);
+}
+
+.nombre-perfil{
+  font-family:'Anton', sans-serif;
+  font-size: 2rem;
+  margin: 16px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.puntos-perfil{
+  color: var(--gold-soft);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.categoria-titulo{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  margin: 26px 0 12px;
+}
+
+.categoria-titulo .barra{
+  flex:1;
+  height: 1px;
+  background: var(--card-edge);
+}
+
+.etiqueta-categoria{
+  font-family:'Anton', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: .95rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  white-space:nowrap;
+}
+.etiqueta-categoria.facil{ background: rgba(95,214,138,0.15); color: var(--facil); }
+.etiqueta-categoria.medio{ background: rgba(244,185,63,0.15); color: var(--medio); }
+.etiqueta-categoria.dificil{ background: rgba(255,107,74,0.15); color: var(--dificil); }
+.etiqueta-categoria.muydificil{ background: rgba(255,79,129,0.15); color: var(--muydificil); }
+
+/* Tarjeta-ticket de reto */
+.reto{
+  position: relative;
+  display:flex;
+  align-items:center;
+  gap: 14px;
+  background: var(--card);
+  border: 1.5px dashed var(--card-edge);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor:pointer;
+  overflow: hidden;
+  transition: border-color .15s ease, background .15s ease;
+}
+
+.reto:hover{ border-color: var(--gold); }
+
+.reto::before, .reto::after{
+  content:"";
+  position:absolute;
+  width: 16px;
+  height:16px;
+  background: var(--bg);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.reto::before{ left: -8px; }
+.reto::after{ right: -8px; }
+
+.check-reto{
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  border: 2px solid var(--card-edge);
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 1rem;
+  color: transparent;
+  transition: all .15s ease;
+}
+
+.texto-reto{
+  flex:1;
+  font-size: .95rem;
+  line-height:1.3;
+}
+
+.valor-reto{
+  font-family:'Anton', sans-serif;
+  font-size: 1rem;
+  color: var(--text-dim);
+  white-space:nowrap;
+}
+
+.reto.conseguido{
+  background: rgba(95,214,138,0.08);
+  border-style: solid;
+  border-color: var(--green);
+}
+.reto.conseguido .check-reto{
+  background: var(--green);
+  border-color: var(--green);
+  color: #0e1f14;
+}
+.reto.conseguido .valor-reto{ color: var(--green); }
+
+.sello{
+  position:absolute;
+  right: 14px;
+  top: -10px;
+  font-family:'Anton', sans-serif;
+  font-size: .7rem;
+  letter-spacing: 1px;
+  color: var(--green);
+  border: 2px solid var(--green);
+  border-radius: 6px;
+  padding: 2px 8px;
+  transform: rotate(-8deg);
+  background: var(--bg);
+  opacity: 0;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.reto.conseguido .sello{
+  opacity: 1;
+  transform: rotate(-8deg) scale(1);
+}
+
+/* ---------- Clasificación ---------- */
+.fila-ranking{
+  display:flex;
+  align-items:center;
+  gap: 14px;
+  background: var(--card);
+  border: 1px solid var(--card-edge);
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+
+.puesto{
+  font-family:'Anton', sans-serif;
+  font-size: 1.3rem;
+  width: 34px;
+  text-align:center;
+  color: var(--text-dim);
+}
+
+.fila-ranking.oro .puesto{ color: var(--gold); font-size:1.6rem; }
+.fila-ranking.plata .puesto{ color: #d9d9e3; font-size:1.4rem; }
+.fila-ranking.bronce .puesto{ color: #cd8a5a; font-size:1.3rem; }
+
+.avatar-ranking{
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--card-edge);
+}
+.avatar-ranking.placeholder{
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Anton', sans-serif; color: var(--text-dim); font-size:1.1rem;
+}
+
+.info-ranking{
+  flex:1;
+}
+
+.nombre-ranking{
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.barra-puntos{
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  margin-top: 6px;
+  overflow:hidden;
+}
+.barra-puntos-relleno{
+  height:100%;
+  background: linear-gradient(90deg, var(--gold), var(--pink));
+  border-radius: 999px;
+}
+
+.puntos-ranking{
+  font-family:'Anton', sans-serif;
+  font-size: 1.1rem;
+  color: var(--gold-soft);
+  white-space:nowrap;
+}
+
+.aviso{
+  text-align:center;
+  color: var(--text-dim);
+  font-size: .85rem;
+  margin-top: 20px;
+}
