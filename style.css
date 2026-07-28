@@ -101,8 +101,8 @@ html, body{
 .avatar-mini{
   width: 72px;
   height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
+  border-radius: 16px;
+  object-fit: contain;
   background: linear-gradient(135deg, var(--card-edge), var(--bg-soft));
   border: 2px solid var(--card-edge);
 }
@@ -185,8 +185,8 @@ html, body{
 .avatar-grande{
   width: 168px;
   height: 168px;
-  border-radius: 50%;
-  object-fit: cover;
+  border-radius: 24px;
+  object-fit: contain;
   border: 4px solid var(--gold);
   box-shadow: 0 0 0 6px rgba(244,185,63,0.15), 0 10px 30px rgba(0,0,0,0.4);
   background: var(--card);
@@ -360,9 +360,10 @@ html, body{
 .avatar-ranking{
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  object-fit: cover;
+  border-radius: 10px;
+  object-fit: contain;
   border: 2px solid var(--card-edge);
+  background: var(--bg-soft);
 }
 .avatar-ranking.placeholder{
   display:flex; align-items:center; justify-content:center;
