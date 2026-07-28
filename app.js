@@ -39,7 +39,24 @@ const ETIQUETAS_CATEGORIA = {
 // ============================================
 // SUPABASE
 // ============================================
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Ojo: esto se construye nada más cargar la página. Si falla (config.js sin
+// rellenar, el script de Supabase no ha cargado, etc.) NO debe impedir que
+// se pinte la pantalla de selección de nombre, así que va en try/catch.
+let supabase = null;
+let configPendiente = false;
+
+try {
+  if (typeof SUPABASE_URL === "undefined" || SUPABASE_URL.includes("TU-PROYECTO")) {
+    configPendiente = true;
+    console.warn("Falta configurar config.js con tu URL y anon key de Supabase.");
+  } else if (!window.supabase) {
+    console.error("La librería de Supabase no se ha cargado (revisa tu conexión a internet o el <script> del CDN).");
+  } else {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+} catch (e) {
+  console.error("Error al crear el cliente de Supabase:", e);
+}
 
 let usuarioActual = localStorage.getItem("retos_usuario") || null;
 let progreso = {}; // { amigo: Set(reto_ids conseguidos) }
@@ -48,11 +65,18 @@ let progreso = {}; // { amigo: Set(reto_ids conseguidos) }
 // CARGA DE DATOS
 // ============================================
 async function cargarProgreso() {
-  const { data, error } = await supabase.from("progreso").select("amigo, reto").eq("completado", true);
   progreso = {};
   AMIGOS.forEach(a => progreso[a] = new Set());
+
+  if (!supabase) {
+    mostrarAvisoConfig();
+    return;
+  }
+
+  const { data, error } = await supabase.from("progreso").select("amigo, reto").eq("completado", true);
   if (error) {
     console.error("Error cargando progreso:", error);
+    mostrarAvisoConfig("No se ha podido conectar con Supabase. Revisa config.js y la tabla 'progreso'.");
     return;
   }
   data.forEach(fila => {
@@ -62,6 +86,10 @@ async function cargarProgreso() {
 }
 
 async function marcarReto(amigo, retoId, conseguido) {
+  if (!supabase) {
+    mostrarAvisoConfig();
+    return;
+  }
   if (conseguido) {
     const { error } = await supabase.from("progreso")
       .upsert({ amigo, reto: retoId, completado: true }, { onConflict: "amigo,reto" });
@@ -71,6 +99,13 @@ async function marcarReto(amigo, retoId, conseguido) {
       .delete().eq("amigo", amigo).eq("reto", retoId);
     if (error) console.error(error);
   }
+}
+
+function mostrarAvisoConfig(mensaje) {
+  const aviso = document.querySelector(".aviso");
+  if (!aviso) return;
+  aviso.textContent = mensaje || "Falta configurar Supabase en config.js: los puntos no se están guardando todavía.";
+  aviso.style.color = "var(--pink)";
 }
 
 function puntosDe(amigo) {
@@ -85,7 +120,7 @@ function puntosDe(amigo) {
 // ============================================
 function crearAvatarImg(nombre, claseBase) {
   const img = document.createElement("img");
-  img.src = `${nombre}.jpg`;
+  img.src = `fotos/${nombre}.jpg`;
   img.alt = nombre;
   img.className = claseBase;
   img.onerror = function () {
@@ -275,14 +310,21 @@ async function mostrarApp() {
 }
 
 async function init() {
+  // Esto va siempre lo primero: pase lo que pase después, la pantalla de
+  // selección de nombre tiene que aparecer.
   pintarSeleccion();
-  document.getElementById("tab-perfil").onclick = () => cambiarPestana("perfil");
-  document.getElementById("tab-clasificacion").onclick = () => cambiarPestana("clasificacion");
-  document.getElementById("btn-cambiar").onclick = cambiarUsuario;
 
-  if (usuarioActual) {
-    await mostrarApp();
+  try {
+    document.getElementById("tab-perfil").onclick = () => cambiarPestana("perfil");
+    document.getElementById("tab-clasificacion").onclick = () => cambiarPestana("clasificacion");
+    document.getElementById("btn-cambiar").onclick = cambiarUsuario;
+
+    if (usuarioActual) {
+      await mostrarApp();
+    }
+  } catch (e) {
+    console.error("Error inicializando la app:", e);
   }
 }
 
-init();
+document.addEventListener("DOMContentLoaded", init);
