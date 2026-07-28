@@ -85,7 +85,7 @@ function puntosDe(amigo) {
 // ============================================
 function crearAvatarImg(nombre, claseBase) {
   const img = document.createElement("img");
-  img.src = `fotos/${nombre}.jpg`;
+  img.src = `${nombre}.jpg`;
   img.alt = nombre;
   img.className = claseBase;
   img.onerror = function () {
